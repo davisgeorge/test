@@ -1,0 +1,107 @@
+@startuml initial-class
+
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+
+' ─── Utility ────────────────────────────────────────────────────────────────
+
+class CodeUtil {
+    + {static} generateRandomCode() : String
+    + {static} isValidCode(code : String) : boolean
+    + {static} getBullsAndCows(guess : String, secret : String) : int[]
+}
+
+' ─── Abstract Player ────────────────────────────────────────────────────────
+
+abstract class Player {
+    # secretCode : String
+    + generateSecretCode() : String {abstract}
+    + makeGuess() : String {abstract}
+    + getSecretCode() : String
+}
+
+' ─── Concrete Players ────────────────────────────────────────────────────────
+
+class EasyAI {
+    + generateSecretCode() : String
+    + makeGuess() : String
+}
+
+class MediumAI {
+    - excludedDigits : Set<Character>
+    + generateSecretCode() : String
+    + makeGuess() : String
+    + refinePossibleCodes(guess : String, bulls : int, cows : int) : void
+    - containsExcludedDigits(guess : String) : boolean
+}
+
+class HardAI {
+    - possibleCodes : List<String>
+    + generateSecretCode() : String
+    + makeGuess() : String
+    + refinePossibleCodes(guess : String, bulls : int, cows : int) : void
+    - matchesFeedback(code : String, guess : String, bulls : int, cows : int) : boolean
+}
+
+class HumanPlayer {
+    - CODE_LENGTH : int
+    - scanner : Scanner
+    + generateSecretCode() : String
+    + makeGuess() : String
+    - getValidCodeFromUser() : String
+    - isValidCode(code : String) : boolean
+}
+
+class FilePlayer {
+    - CODE_LENGTH : int
+    - guesses : List<String>
+    - currentGuessIndex : int
+    + generateSecretCode() : String
+    + makeGuess() : String
+    - loadCodesFromFile() : void
+    - isValidCode(code : String) : boolean
+    - generateRandomCode() : String
+}
+
+' ─── Game ───────────────────────────────────────────────────────────────────
+
+class Game {
+    - player1 : Player
+    - player2 : Player
+    - guesses : List<String>
+    - winner : String
+    - secretCodePlayer1 : String
+    - secretCodePlayer2 : String
+    + start() : void
+    + saveResultsToFile(filename : String) : void
+}
+
+' ─── Entry Point ────────────────────────────────────────────────────────────
+
+class Main {
+    + {static} main(args : String[]) : void
+    - {static} selectPlayer(scanner : Scanner, isHumanPlayerSelected : boolean) : Player
+}
+
+' ─── Inheritance ────────────────────────────────────────────────────────────
+
+Player <|-- EasyAI
+Player <|-- MediumAI
+Player <|-- HardAI
+Player <|-- HumanPlayer
+Player <|-- FilePlayer
+
+' ─── Associations ───────────────────────────────────────────────────────────
+
+Game "1" *-- "2" Player : contains
+
+Main ..> Game      : creates
+Main ..> Player    : selects
+
+EasyAI    ..> CodeUtil : uses
+MediumAI  ..> CodeUtil : uses
+HardAI    ..> CodeUtil : uses
+FilePlayer ..> CodeUtil : uses
+Game       ..> CodeUtil : uses
+
+@enduml

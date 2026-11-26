@@ -1,0 +1,32 @@
+[
+  {
+    "id": "aaaa-1111",
+    "text": "Customer Success Manager",
+    "categories": {"commitment": "Full Time", "department": "Customer Success", "location": "Atlanta, Georgia", "team": "CS", "allLocations": ["Atlanta, Georgia"]},
+    "country": "US",
+    "workplaceType": "hybrid",
+    "createdAt": 1788199939703,
+    "descriptionPlain": "Help customers succeed.",
+    "salaryRange": {"min": 85000, "max": 175000, "currency": "USD", "interval": "per-year-salary"},
+    "hostedUrl": "https://jobs.lever.co/exampleco/aaaa-1111",
+    "applyUrl": "https://jobs.lever.co/exampleco/aaaa-1111/apply"
+  },
+  {
+    "id": "bbbb-2222",
+    "text": "Field Engineer",
+    "categories": {"commitment": "Contract", "location": "Toronto, ON", "allLocations": ["Toronto, ON"]},
+    "country": "CA",
+    "workplaceType": "onsite",
+    "createdAt": 1788199939000,
+    "hostedUrl": "https://jobs.lever.co/exampleco/bbbb-2222"
+  },
+  {
+    "id": "cccc-3333",
+    "text": "Solutions Architect",
+    "categories": {"location": "Toronto, ON", "allLocations": ["Toronto, ON", "New York, NY"]},
+    "country": "CA",
+    "workplaceType": "unspecified",
+    "createdAt": 1788199930000,
+    "hostedUrl": "https://jobs.lever.co/exampleco/cccc-3333"
+  }
+]

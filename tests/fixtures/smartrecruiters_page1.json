@@ -1,0 +1,24 @@
+{
+  "offset": 0,
+  "limit": 2,
+  "totalFound": 3,
+  "content": [
+    {
+      "id": "744000000000001",
+      "name": "Senior / Lead Engineering Manager",
+      "company": {"identifier": "ExampleCo", "name": "ExampleCo GmbH"},
+      "releasedDate": "2026-10-28T15:14:43.941Z",
+      "location": {"city": "Stuttgart", "region": "BW", "country": "de", "remote": false, "hybrid": true, "fullLocation": "Stuttgart, BW, Germany"},
+      "function": {"id": "engineering", "label": "Engineering"},
+      "typeOfEmployment": {"id": "permanent", "label": "Full-time"}
+    },
+    {
+      "id": "744000000000002",
+      "name": "Werkstudent (m/w/d) Einkauf",
+      "company": {"identifier": "ExampleCo", "name": "ExampleCo GmbH"},
+      "releasedDate": "2026-11-02T08:00:00.000Z",
+      "location": {"city": "Remote", "region": "", "country": "de", "remote": true, "hybrid": false, "fullLocation": "Germany, Remote"},
+      "department": {"id": "1", "label": "Purchasing"}
+    }
+  ]
+}

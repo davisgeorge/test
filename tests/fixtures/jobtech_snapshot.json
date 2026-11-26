@@ -1,0 +1,35 @@
+[
+  {
+    "id": "30000001",
+    "headline": "Undersköterska till hemtjänsten",
+    "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/30000001",
+    "application_deadline": "2026-12-20T23:59:59",
+    "description": {"text": "Vi söker en undersköterska.\nHeltid, dagtid.", "text_formatted": "<p>Vi söker en undersköterska.</p>"},
+    "employment_type": {"concept_id": "kpPX_CNN_gDU", "label": "Tillsvidareanställning (inkl. eventuell provanställning)"},
+    "working_hours_type": {"concept_id": "6YE1_gAC_R2G", "label": "Heltid"},
+    "salary_description": "Månadslön enligt avtal",
+    "workplace_model": {"concept_id": "ZxwM_gtz_n61", "label": "Arbete på plats"},
+    "employer": {"name": "Exempelkommunen", "workplace": "Hemtjänst Norr"},
+    "occupation_field": {"concept_id": "NYW6_mP6_vwf", "label": "Hälso- och sjukvård"},
+    "workplace_address": {"municipality": "Uppsala", "region": "Uppsala län", "country": "Sverige", "country_concept_id": "i46j_HmG_v64", "city": "UPPSALA"},
+    "publication_date": "2026-11-20T08:15:00",
+    "removed": false
+  },
+  {
+    "id": "30000002",
+    "headline": "Lastbilschaufför i Oslo",
+    "employer": {"name": "Norsk Transport AS"},
+    "workplace_address": {"municipality": null, "region": null, "country": "Norge", "country_concept_id": "QJgN_Zge_BzJ"},
+    "publication_date": "2026-11-21T10:00:00",
+    "removed": false
+  },
+  {
+    "id": "30000003",
+    "headline": "<b>Systemutvecklare</b> &amp; arkitekt",
+    "employer": {"name": null, "workplace": "Kodbolaget"},
+    "workplace_address": {"municipality": null, "region": "Stockholms län", "country": "Sverige", "country_concept_id": "i46j_HmG_v64", "city": "SOLNA"},
+    "workplace_model": {"label": "Distansarbete"},
+    "publication_date": "2026-07-01T12:00:00",
+    "removed": false
+  }
+]

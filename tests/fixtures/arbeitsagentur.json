@@ -1,0 +1,37 @@
+{
+  "ergebnisliste": [
+    {
+      "stellenangebotsart": "ARBEIT",
+      "stellenangebotsTitel": "Fachkraft Lagerlogistik (m/w/d)",
+      "eintrittszeitraum": {"von": "2026-12-01"},
+      "verguetungsangabe": "STUNDENLOHN",
+      "artDerVerguetung": "GEHALTSSPANNE",
+      "gehaltsspanneVon": 15.5,
+      "gehaltsspanneBis": 18.0,
+      "vertragsdauer": "UNBEFRISTET",
+      "istGeringfuegigeBeschaeftigung": false,
+      "stellenlokationen": [
+        {"adresse": {"plz": "28195", "ort": "Bremen", "region": "BREMEN", "land": "DEUTSCHLAND"}, "breite": 53.07, "laenge": 8.8}
+      ],
+      "veroeffentlichungszeitraum": {"von": "2026-11-24"},
+      "datumErsteVeroeffentlichung": "2026-11-24",
+      "aenderungsdatum": "2026-11-24T09:12:00.000",
+      "hauptberuf": "Fachkraft - Lagerlogistik",
+      "firma": "Beispiel Logistik GmbH",
+      "referenznummer": "10000-1111111111-S"
+    },
+    {
+      "stellenangebotsart": "ARBEIT",
+      "stellenangebotsTitel": "Koch (m/w/d) in Wien",
+      "stellenlokationen": [{"adresse": {"ort": "Wien", "land": "ÖSTERREICH"}}],
+      "datumErsteVeroeffentlichung": "2026-11-25",
+      "hauptberuf": "Koch/Köchin",
+      "firma": "Wiener Gasthaus",
+      "referenznummer": "10000-2222222222-S"
+    }
+  ],
+  "maxErgebnisse": 2,
+  "page": 1,
+  "size": 500,
+  "facetten": {}
+}

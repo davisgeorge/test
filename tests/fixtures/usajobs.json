@@ -1,0 +1,44 @@
+{
+  "LanguageCode": "EN",
+  "SearchParameters": {},
+  "SearchResult": {
+    "SearchResultCount": 2,
+    "SearchResultCountAll": 2,
+    "SearchResultItems": [
+      {
+        "MatchedObjectId": "812345600",
+        "MatchedObjectDescriptor": {
+          "PositionID": "VA-26-12345",
+          "PositionTitle": "Registered Nurse",
+          "PositionURI": "https://www.usajobs.gov:443/GetJob/ViewDetails/812345600",
+          "PositionLocationDisplay": "Denver, Colorado",
+          "PositionLocation": [
+            {"LocationName": "Denver, Colorado", "CountryCode": "United States", "CountrySubDivisionCode": "Colorado", "CityName": "Denver, Colorado", "Longitude": -104.99, "Latitude": 39.74}
+          ],
+          "OrganizationName": "Veterans Health Administration",
+          "DepartmentName": "Department of Veterans Affairs",
+          "JobCategory": [{"Name": "Nurse", "Code": "0610"}],
+          "PositionSchedule": [{"Name": "Full-time", "Code": "1"}],
+          "PositionRemuneration": [{"MinimumRange": "78000.0", "MaximumRange": "120000.0", "RateIntervalCode": "PA", "Description": "Per Year"}],
+          "PublicationStartDate": "2026-11-20T00:00:00.0000",
+          "ApplicationCloseDate": "2026-12-20T23:59:59.9970",
+          "QualificationSummary": "Must hold an active RN license.",
+          "UserArea": {"Details": {"JobSummary": "Provide <b>patient</b> care."}}
+        }
+      },
+      {
+        "MatchedObjectId": "812345601",
+        "MatchedObjectDescriptor": {
+          "PositionID": "DOD-26-1",
+          "PositionTitle": "Teacher (Overseas)",
+          "PositionURI": "https://www.usajobs.gov:443/GetJob/ViewDetails/812345601",
+          "PositionLocationDisplay": "Ramstein, Germany",
+          "PositionLocation": [{"LocationName": "Ramstein, Germany", "CountryCode": "Germany", "CityName": "Ramstein, Germany"}],
+          "OrganizationName": "Department of Defense Education Activity",
+          "DepartmentName": "Department of Defense"
+        }
+      }
+    ],
+    "UserArea": {"NumberOfPages": "1", "IsRadialSearch": false}
+  }
+}

@@ -1,0 +1,22 @@
+# jobbot settings. Copy this file to jobbot.toml (or pass --config PATH).
+# API keys go in environment variables, never in this file.
+
+[sources.adzuna]
+# max_requests = 250   # requests per run; Adzuna's free tier allows about 250 a day
+# what = "nurse"       # only fetch listings matching a keyword
+
+[sources.arbeitsagentur]
+# offer_types = [1]    # 1 = jobs, 4 = apprenticeships, 34 = internships/trainee, 2 = self-employment
+
+[companies]
+# Company career sites to read, by the platform they use. Use the name from
+# the board's web address, optionally followed by "=Display Name".
+greenhouse = ["stripe", "cloudflare", "datadog"]  # boards.greenhouse.io/<name>
+lever = ["spotify", "palantir"]                   # jobs.lever.co/<name>; "eu:<name>" for EU-hosted boards
+ashby = ["openai=OpenAI", "notion", "ramp"]       # jobs.ashbyhq.com/<name>
+smartrecruiters = ["BoschGroup"]                  # jobs.smartrecruiters.com/<name>
+
+[locations]
+# Extra place names that count as "in this country" when a company board
+# only gives a free-text location. Keys are country codes or names.
+NZ = ["Hamilton", "Nelson", "Queenstown"]

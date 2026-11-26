@@ -1,0 +1,39 @@
+{
+  "jobs": [
+    {
+      "absolute_url": "https://job-boards.greenhouse.io/exampleco/jobs/1001",
+      "id": 1001,
+      "title": "Backend Engineer",
+      "company_name": "ExampleCo",
+      "updated_at": "2026-11-23T17:02:31-05:00",
+      "first_published": "2026-11-20T09:00:00-05:00",
+      "location": {"name": "Remote, Canada; Remote, United States"},
+      "departments": [{"id": 1, "name": "Engineering"}],
+      "offices": [],
+      "content": "&lt;p&gt;Build &lt;strong&gt;APIs&lt;/strong&gt;.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Python&lt;/li&gt;&lt;/ul&gt;"
+    },
+    {
+      "absolute_url": "https://job-boards.greenhouse.io/exampleco/jobs/1002",
+      "id": 1002,
+      "title": "Account Executive",
+      "company_name": "ExampleCo",
+      "updated_at": "2026-11-22T10:00:00-05:00",
+      "location": {"name": "Hybrid"},
+      "departments": [{"id": 2, "name": "Sales"}],
+      "offices": [{"id": 9, "name": "Austin, TX", "location": "Austin, TX, United States"}],
+      "content": "&lt;p&gt;Sell things.&lt;/p&gt;"
+    },
+    {
+      "absolute_url": "https://job-boards.greenhouse.io/exampleco/jobs/1003",
+      "id": 1003,
+      "title": "Office Manager",
+      "company_name": "ExampleCo",
+      "updated_at": "2026-11-21T10:00:00Z",
+      "location": {"name": "London, United Kingdom"},
+      "departments": [],
+      "offices": [{"id": 10, "name": "London", "location": "London, United Kingdom"}],
+      "content": ""
+    }
+  ],
+  "meta": {"total": 3}
+}

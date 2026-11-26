@@ -1,0 +1,41 @@
+{
+  "__CLASS__": "Adzuna::API::Response::JobSearchResults",
+  "count": 3,
+  "mean": 65000.5,
+  "results": [
+    {
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "id": "4400000001",
+      "adref": "eyJhbGciOi",
+      "title": "<strong>Software</strong> Developer",
+      "description": "Join our team building <strong>software</strong> for farmers...",
+      "created": "2026-11-25T03:00:00Z",
+      "redirect_url": "https://www.adzuna.co.nz/jobs/land/ad/4400000001?se=abc",
+      "company": {"__CLASS__": "Adzuna::API::Response::Company", "display_name": "Kiwi Software Ltd"},
+      "location": {"__CLASS__": "Adzuna::API::Response::Location", "display_name": "Auckland CBD, Auckland", "area": ["New Zealand", "Auckland", "Auckland CBD"]},
+      "category": {"__CLASS__": "Adzuna::API::Response::Category", "label": "IT Jobs", "tag": "it-jobs"},
+      "salary_min": 90000,
+      "salary_max": 110000,
+      "salary_is_predicted": "0",
+      "contract_type": "permanent",
+      "contract_time": "full_time",
+      "latitude": -36.85,
+      "longitude": 174.76
+    },
+    {
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "id": "4400000002",
+      "title": "Barista",
+      "description": "Morning shifts.",
+      "created": "2026-11-24T21:30:00Z",
+      "redirect_url": "https://www.adzuna.co.nz/jobs/land/ad/4400000002",
+      "company": {"display_name": "Flat White Co"},
+      "location": {"display_name": "Wellington", "area": ["New Zealand", "Wellington"]},
+      "category": {"label": "Hospitality & Catering Jobs", "tag": "hospitality-catering-jobs"},
+      "salary_min": 52000,
+      "salary_max": 52000,
+      "salary_is_predicted": "1",
+      "contract_time": "part_time"
+    }
+  ]
+}

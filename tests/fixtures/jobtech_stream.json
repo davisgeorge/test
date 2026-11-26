@@ -1,0 +1,17 @@
+[
+  {
+    "id": "30000001",
+    "headline": "Undersköterska till hemtjänsten (uppdaterad)",
+    "employer": {"name": "Exempelkommunen"},
+    "workplace_address": {"municipality": "Uppsala", "region": "Uppsala län", "country": "Sverige", "country_concept_id": "i46j_HmG_v64"},
+    "publication_date": "2026-11-20T08:15:00",
+    "removed": false
+  },
+  {
+    "id": "30000003",
+    "removed": true,
+    "removed_date": "2026-11-26T19:00:43",
+    "occupation": {"concept_id": "2m7e_FR5_65b"},
+    "country": "i46j_HmG_v64"
+  }
+]

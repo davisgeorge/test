@@ -1,0 +1,14 @@
+{
+  "offset": 2,
+  "limit": 2,
+  "totalFound": 3,
+  "content": [
+    {
+      "id": "744000000000003",
+      "name": "Plant Manager",
+      "company": {"identifier": "ExampleCo", "name": "ExampleCo GmbH"},
+      "releasedDate": "2026-11-05T08:00:00.000Z",
+      "location": {"city": "Hamburg", "country": "de", "remote": false, "hybrid": false, "fullLocation": "Hamburg, Germany"}
+    }
+  ]
+}

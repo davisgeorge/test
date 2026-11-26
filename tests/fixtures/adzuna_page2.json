@@ -1,0 +1,15 @@
+{
+  "count": 3,
+  "results": [
+    {
+      "id": "4400000003",
+      "title": "Dairy Farm Assistant",
+      "description": "Waikato farm.",
+      "created": "2026-11-20T00:00:00Z",
+      "redirect_url": "https://www.adzuna.co.nz/jobs/land/ad/4400000003",
+      "company": {"display_name": "Green Pastures"},
+      "location": {"display_name": "Hamilton, Waikato", "area": ["New Zealand", "Waikato", "Hamilton"]},
+      "category": {"label": "Farming Jobs"}
+    }
+  ]
+}

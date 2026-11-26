@@ -194,7 +194,10 @@ def to_job(item: dict[str, Any]) -> Job | None:
         source="arbeitsagentur",
         source_id=str(refnr),
         country="DE",
-        title=clean_line(first(item.get("stellenangebotsTitel"), item.get("titel"), item.get("beruf")))
+        # ~1% of listings have no title of their own; their occupation is the next best thing
+        title=clean_line(
+            first(item.get("stellenangebotsTitel"), item.get("titel"), item.get("hauptberuf"), item.get("beruf"))
+        )
         or "(untitled)",
         company=clean_line(first(item.get("firma"), item.get("arbeitgeber"))),
         location=join(city, region),

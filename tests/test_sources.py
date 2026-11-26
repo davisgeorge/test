@@ -86,6 +86,14 @@ def test_arbeitsagentur_maps_jobs_and_skips_abroad(http):
     assert "1 located abroad" in context.notes[0]
 
 
+def test_arbeitsagentur_title_falls_back_to_occupation(http):
+    page = load("arbeitsagentur")
+    del page["ergebnisliste"][0]["stellenangebotsTitel"]
+    http.add(BA_URL, page)
+    jobs = fetch("arbeitsagentur", "DE", ctx(http))
+    assert jobs[0].title == "Fachkraft - Lagerlogistik"
+
+
 def test_arbeitsagentur_incremental_uses_days_since(http):
     http.add(BA_URL, load("arbeitsagentur"), params={"veroeffentlichtseit": 2})
     context = ctx(http, since=NOW - timedelta(days=1, hours=2))

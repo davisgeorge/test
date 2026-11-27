@@ -20,6 +20,9 @@ OVERLAP = timedelta(hours=1)  # start incremental fetches a little early so noth
 MAX_INCREMENTAL_GAP = timedelta(days=30)  # after a longer break, crawl everything again
 COMMIT_EVERY = 1000
 LOG_EVERY = 5000
+PROGRESS_EVERY = 250
+
+Progress = Callable[[dict], None]
 
 
 @dataclass
@@ -27,6 +30,8 @@ class Availability:
     source: Source
     ready: bool
     reason: str = ""
+    needs: str | None = None  # "key" or "companies" when not ready
+    missing: tuple[str, ...] = ()  # environment variables still to set
 
 
 def availability(country: str, config: Config, env: Mapping[str, str]) -> list[Availability]:
@@ -38,9 +43,10 @@ def availability(country: str, config: Config, env: Mapping[str, str]) -> list[A
         missing = source.missing_env(env)
         if missing:
             reason = f"set {' and '.join(missing)} — get a key at {source.signup}"
-            found.append(Availability(source, False, reason))
+            found.append(Availability(source, False, reason, "key", tuple(missing)))
         elif source.needs_companies and not config.companies.get(source.name):
-            found.append(Availability(source, False, f"add companies to [companies] {source.name} in jobbot.toml"))
+            reason = f"add companies to [companies] {source.name} in jobbot.toml"
+            found.append(Availability(source, False, reason, "companies"))
         else:
             found.append(Availability(source, True))
     return found
@@ -90,23 +96,31 @@ def run(
     max_requests: int | None = None,
     env: Mapping[str, str] | None = None,
     http_factory: Callable[[Source, int | None], object] = make_http,
+    progress: Progress | None = None,
+    should_stop: Callable[[], bool] | None = None,
 ) -> RunResult:
     """Crawl every ready source for ``country``.
 
     ``full`` re-downloads everything; ``since_days`` asks only for jobs posted
     or changed in that many recent days (for sources that support it).
+    ``progress`` is called with counts as the crawl goes; ``should_stop``
+    returning True ends the crawl early (nothing gets closed then).
     """
     env = os.environ if env is None else env
     started = iso(utc_now())
     crawls = []
-    for item in availability(country, config, env):
-        if only and item.source.name not in only:
-            continue
+    plan = [item for item in availability(country, config, env) if not only or item.source.name in only]
+    for item in plan:
         if not item.ready:
             crawls.append(CrawlResult(item.source.name, mode="-", status="skipped", notes=[item.reason]))
             continue
+        if should_stop and should_stop():
+            break
         crawls.append(
-            _crawl(item.source, country, store, config, env, full, since_days, max_requests, http_factory)
+            _crawl(
+                item.source, country, store, config, env, full, since_days, max_requests, http_factory,
+                progress, should_stop,
+            )
         )
     return RunResult(country, started, crawls)
 
@@ -129,7 +143,9 @@ def _since(source: Source, country: str, store: Store, now: datetime) -> datetim
     return since
 
 
-def _crawl(source, country, store, config, env, full, since_days, max_requests, http_factory) -> CrawlResult:
+def _crawl(
+    source, country, store, config, env, full, since_days, max_requests, http_factory, progress=None, should_stop=None
+) -> CrawlResult:
     now = utc_now()
     started = iso(now)
     if since_days is not None:
@@ -154,18 +170,29 @@ def _crawl(source, country, store, config, env, full, since_days, max_requests, 
     what = f"changes since {iso(ctx.since)}" if ctx.since else "everything"
     log.info("%s: fetching %s for %s", source.name, what, country)
 
+    def report(done: bool = False) -> None:
+        if progress:
+            progress({"source": source.name, "fetched": result.fetched, "new": result.new,
+                      "closed": result.closed, "done": done, "initial": result.initial})
+
+    report()
     error = None
     try:
         for item in source.fetch(country, ctx):
+            if should_stop and should_stop():
+                ctx.incomplete("stopped on request")
+                break
             if isinstance(item, Removed):
                 result.closed += store.close_job(f"{source.name}:{item.source_id}", started)
                 continue
             if item.country != country:
                 continue
             result.fetched += 1
-            result.new += store.upsert(item, started)
+            result.new += store.upsert(item, started, initial=result.initial)
             if result.fetched % COMMIT_EVERY == 0:
                 store.commit()
+            if result.fetched % PROGRESS_EVERY == 0:
+                report()
             if result.fetched % LOG_EVERY == 0:
                 log.info("    %s jobs so far (%s new)", f"{result.fetched:,}", f"{result.new:,}")
     except BudgetExceeded as exc:
@@ -203,6 +230,7 @@ def _crawl(source, country, store, config, env, full, since_days, max_requests, 
         requests=result.requests,
         note="; ".join(result.notes) or None,
     )
+    report(done=True)
     log.info(
         "%s: %s — %s jobs, %s new, %s closed, %s requests",
         source.name,

@@ -533,6 +533,23 @@ def countries_in(
     return found
 
 
+def normalize(text: str) -> str:
+    """Lower-case words without accents or punctuation, single-spaced."""
+    return _norm(text)
+
+
+@lru_cache(maxsize=1)
+def _name_pattern() -> re.Pattern[str]:
+    # Two-letter names ("us", "nz") are left out: in a sentence "us" is a word.
+    names = [name for name in _NAME_TO_CODE if len(name) > 2 or name == "uk"]
+    return _compile(names)
+
+
+def find_country_names(text: str) -> list[tuple[str, str]]:
+    """Country names written out in ``text``: ``[(code, normalised phrase), ...]``."""
+    return [(_NAME_TO_CODE[m.group(0)], m.group(0)) for m in _name_pattern().finditer(_norm(text))]
+
+
 def mentions_country(
     texts: Iterable[str | None],
     country: str,

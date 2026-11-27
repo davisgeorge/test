@@ -98,6 +98,14 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("stats", parents=[common], help="show what is stored and recent crawls")
     p.add_argument("--country", "-c")
     p.set_defaults(handler=cmd_stats)
+
+    p = sub.add_parser("serve", parents=[common], help="run the always-on bot and its web app")
+    p.add_argument("--host", default=os.environ.get("JOBBOT_HOST", "127.0.0.1"),
+                   help="address to listen on (default 127.0.0.1: this computer only; 0.0.0.0: every network)")
+    p.add_argument("--port", type=int, default=int(os.environ.get("JOBBOT_PORT", "8080")))
+    p.add_argument("--password", default=os.environ.get("JOBBOT_PASSWORD"),
+                   help="require this password in the browser ($JOBBOT_PASSWORD)")
+    p.set_defaults(handler=cmd_serve)
     return parser
 
 
@@ -153,7 +161,7 @@ def cmd_fetch(args) -> int:
             count = write_jobs(store.iter_jobs(country), args.out)
             print(f"\nWrote {count:,} open jobs to {args.out}")
         if args.webhook:
-            post_new_jobs(store, result, args.webhook)
+            notify.notify_run(store, result, args.webhook)
     finally:
         store.close()
     return 1 if all(c.status == "error" for c in result.ran) else 0
@@ -217,6 +225,22 @@ def cmd_stats(args) -> int:
                   f"{crawl['status']:<8} {crawl['fetched']:>9,} found {crawl['new']:>9,} new{note}")
     finally:
         store.close()
+    return 0
+
+
+def cmd_serve(args) -> int:
+    import uvicorn
+
+    from .app.server import create_app
+
+    local = args.host in ("127.0.0.1", "localhost", "::1")
+    if not local and not args.password:
+        log.warning("listening on %s without a password: anyone who can reach this port can control "
+                    "the bot. Set JOBBOT_PASSWORD or use --password.", args.host)
+    app = create_app(args.db, toml_path=args.config, password=args.password)
+    shown = "localhost" if local or args.host in ("0.0.0.0", "::") else args.host
+    print(f"jobbot is running: open http://{shown}:{args.port} in your browser (Ctrl+C to stop)", flush=True)
+    uvicorn.run(app, host=args.host, port=args.port, log_level="warning")
     return 0
 
 
@@ -295,20 +319,3 @@ def print_summary(store: Store, result: RunResult, seconds: float) -> None:
             print(f"  {notify.format_job(job)}")
         if new_count > 10:
             print(f"  …and {new_count - 10:,} more (see `jobbot export`)")
-
-
-def post_new_jobs(store: Store, result: RunResult, url: str) -> None:
-    returning = result.returning_sources
-    if not returning:
-        log.info("first crawl for these sources: not posting the initial load to the webhook")
-        return
-    country = result.country
-    count = store.count_jobs(country, dedupe=True, sources=returning, first_seen_since=result.started_at)
-    if not count:
-        return
-    jobs = list(store.iter_jobs(country, sources=returning, first_seen_since=result.started_at, limit=50))
-    try:
-        notify.send(url, country, country_name(country), jobs, count)
-        log.info("posted %s new jobs to the webhook", count)
-    except Exception as exc:
-        log.warning("could not post to the webhook: %s", exc)

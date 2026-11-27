@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>jobbot</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div class="chrome">
+  <header class="top">
+    <a class="brand" href="#chat"><img src="icon.svg" alt="" width="26" height="26"><span>jobbot</span></a>
+    <div class="status" id="status" role="status" aria-live="polite">
+      <span class="dot" aria-hidden="true"></span><span class="status-text">Connecting…</span>
+    </div>
+    <div class="top-actions">
+      <button class="btn small ghost" id="stop-btn" type="button" hidden>Stop check</button>
+      <button class="btn small" id="pause-btn" type="button" hidden>Pause</button>
+    </div>
+  </header>
+  <div class="progress" id="progress" hidden><div class="bar"></div></div>
+  <nav class="tabs" aria-label="Sections">
+    <a href="#chat" data-tab="chat">Chat</a>
+    <a href="#jobs" data-tab="jobs">Jobs</a>
+    <a href="#countries" data-tab="countries">Countries</a>
+    <a href="#activity" data-tab="activity">Activity</a>
+    <a href="#settings" data-tab="settings">Settings</a>
+  </nav>
+  </div>
+
+  <main>
+    <section id="view-chat" class="view chat-view" hidden>
+      <div class="messages" id="messages" aria-live="polite"></div>
+      <div class="suggestions" id="suggestions"></div>
+      <form class="composer" id="composer" autocomplete="off">
+        <input id="chat-input" name="message" maxlength="500" aria-label="Message to jobbot"
+               placeholder="Try “watch Sweden” or “nurse jobs in Berlin”">
+        <button class="btn primary" type="submit">Send</button>
+      </form>
+    </section>
+
+    <section id="view-jobs" class="view" hidden>
+      <form class="filters" id="job-filters" autocomplete="off">
+        <input type="search" name="q" placeholder="Search title, company, place…" aria-label="Search">
+        <select name="country" aria-label="Country"></select>
+        <select name="mode" aria-label="Work mode">
+          <option value="">Any work mode</option>
+          <option value="remote">Remote</option>
+          <option value="hybrid">Hybrid</option>
+          <option value="onsite">On-site</option>
+        </select>
+        <select name="days" aria-label="Posted">
+          <option value="">Posted any time</option>
+          <option value="1">Posted today</option>
+          <option value="7">Past week</option>
+          <option value="30">Past month</option>
+        </select>
+        <select name="sort" aria-label="Sort">
+          <option value="posted">Newest posted</option>
+          <option value="found">Newest found</option>
+        </select>
+        <label class="check"><input type="checkbox" name="new"> Only new</label>
+      </form>
+      <div class="results-head">
+        <span id="result-count" class="muted"></span>
+        <a id="export-link" class="btn small ghost" href="#" hidden>Export CSV</a>
+      </div>
+      <div class="job-list" id="job-list"></div>
+      <button class="btn wide" id="more-jobs" type="button" hidden>Show more</button>
+    </section>
+
+    <section id="view-countries" class="view" hidden>
+      <form class="card add-country" id="add-country" autocomplete="off">
+        <h2>Watch a country</h2>
+        <div class="row">
+          <input list="country-options" id="country-input" placeholder="Country, e.g. Sweden" aria-label="Country" required>
+          <datalist id="country-options"></datalist>
+          <select id="every-input" aria-label="How often">
+            <option value="1">Every hour</option>
+            <option value="3">Every 3 hours</option>
+            <option value="6" selected>Every 6 hours</option>
+            <option value="12">Every 12 hours</option>
+            <option value="24">Every day</option>
+          </select>
+          <button class="btn primary" type="submit">Watch</button>
+        </div>
+        <div id="country-hint" class="hint"></div>
+      </form>
+      <div id="watch-list" class="watch-list"></div>
+      <div id="other-countries"></div>
+    </section>
+
+    <section id="view-activity" class="view" hidden>
+      <h2>What the bot did</h2>
+      <ul class="events" id="events"></ul>
+      <h2>Checks</h2>
+      <div class="table-wrap">
+        <table class="crawls">
+          <thead><tr><th>When</th><th>Country</th><th>Source</th><th>Mode</th><th>Status</th>
+            <th class="num">Found</th><th class="num">New</th><th class="num">Closed</th></tr></thead>
+          <tbody id="crawls"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="view-settings" class="view" hidden></section>
+  </main>
+
+  <dialog id="job-dialog" aria-labelledby="job-title">
+    <form method="dialog" class="dialog-close"><button class="btn small ghost" aria-label="Close">✕</button></form>
+    <div id="job-detail"></div>
+  </dialog>
+  <div class="toast" id="toast" role="alert" hidden></div>
+  <script src="app.js"></script>
+</body>
+</html>

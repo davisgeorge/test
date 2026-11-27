@@ -2,11 +2,16 @@
 
 from __future__ import annotations
 
+import logging
 from collections.abc import Sequence
 from typing import Any
 from urllib.parse import urlparse
 
 import requests
+
+from .countries import country_name
+
+log = logging.getLogger("jobbot")
 
 DISCORD_LIMIT = 2000
 
@@ -64,3 +69,30 @@ def send(
         }
     response = post(url, json=payload, timeout=30)
     response.raise_for_status()
+
+
+def new_jobs_of_run(store, result, limit: int = 50) -> tuple[list[dict[str, Any]], int]:
+    """Openings first seen during ``result``'s run, skipping sources whose
+    first-ever crawl this was (that is a backlog, not news)."""
+    returning = result.returning_sources
+    if not returning:
+        return [], 0
+    country = result.country
+    count = store.count_jobs(country, dedupe=True, sources=returning, first_seen_since=result.started_at)
+    if not count:
+        return [], 0
+    jobs = list(store.iter_jobs(country, sources=returning, first_seen_since=result.started_at, limit=limit))
+    return jobs, count
+
+
+def notify_run(store, result, url: str, *, post=requests.post) -> int:
+    """Post a run's new openings to a webhook. Returns how many were new."""
+    jobs, count = new_jobs_of_run(store, result)
+    if not count:
+        return 0
+    try:
+        send(url, result.country, country_name(result.country), jobs, count, post=post)
+        log.info("posted %s new jobs to the webhook", count)
+    except Exception as exc:
+        log.warning("could not post to the webhook: %s", exc)
+    return count

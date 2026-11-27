@@ -10,3 +10,6 @@ dist/
 *.db-shm
 *.db-wal
 exports/
+
+# secrets for docker compose
+.env

@@ -1,0 +1,22 @@
+# Run the bot around the clock:   docker compose up -d
+# Then open http://localhost:8080
+services:
+  jobbot:
+    build: .
+    restart: unless-stopped
+    ports:
+      # Only this computer can open the app. To reach it from other devices,
+      # set JOBBOT_PASSWORD and change this to "8080:8080".
+      - "127.0.0.1:8080:8080"
+    environment:
+      JOBBOT_PASSWORD: ${JOBBOT_PASSWORD:-}
+      # Optional API keys (they can also be added in the app's Settings):
+      ADZUNA_APP_ID: ${ADZUNA_APP_ID:-}
+      ADZUNA_APP_KEY: ${ADZUNA_APP_KEY:-}
+      USAJOBS_API_KEY: ${USAJOBS_API_KEY:-}
+      USAJOBS_EMAIL: ${USAJOBS_EMAIL:-}
+    volumes:
+      - jobbot-data:/data  # the job database survives restarts and upgrades
+
+volumes:
+  jobbot-data:

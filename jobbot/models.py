@@ -84,7 +84,10 @@ def clean_text(value: Any) -> str | None:
 def clean_line(value: Any) -> str | None:
     """Like :func:`clean_text` but always a single line."""
     text = clean_text(value)
-    return " ".join(text.split()) if text else None
+    if not text:
+        return None
+    text = text.replace("\\*", "*").replace("\\_", "_")  # Markdown escapes some boards leave in
+    return " ".join(text.split())
 
 
 def first(*values: Any) -> Any:
